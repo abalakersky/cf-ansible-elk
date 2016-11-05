@@ -1,0 +1,34 @@
+---
+- hosts: elk
+  remote_user: ubuntu
+  become: true
+  become_user: root
+  become_method: sudo
+  gather_facts: False
+  tasks:
+   - name: Install Python2
+     raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+   - name: Install Java
+     apt: pkg=openjdk-8-jdk state=installed update_cache=true
+   - apt_key: url=https://packages.elastic.co/GPG-KEY-elasticsearch
+   - name: Install ELK Repo
+     apt_repository: repo='deb http://packages.elastic.co/elasticsearch/2.x/debian stable main'
+   - apt_repository: repo='deb http://packages.elastic.co/logstash/2.1/debian stable main'
+   - name: Install ELK
+     apt: pkg=elasticsearch state=installed update_cache=true
+   - name: Fix elasticsearch network affinity
+     raw: echo "network.host{{':'}} 0.0.0.0" >> /etc/elasticsearch/elasticsearch.yml
+   - name: Install Logstash
+     apt: pkg=logstash state=installed update_cache=true
+   - service: name=elasticsearch state=restarted
+   - service: name=logstash state=restarted
+   - name: Install Nginx
+     apt: name=nginx state=present update-cache=yes
+   - name: Download Kibna archive
+     get_url: url=https://download.elastic.co/kibana/kibana/kibana-4.3.0-linux-x64.tar.gz dest=/tmp
+   - name: Create kibana directory
+     file: path=/opt/applications owner=root group=root mode=0666 state=directory
+   - name: Unarchive kibana
+     raw: tar -C /opt/applications -xzf /tmp/kibana-4.3.0-linux-x64.tar.gz
+   - apt: pkg=daemon state=installed
+   - shell: daemon -U -- /opt/applications/kibana-4.3.0-linux-x64/bin/kibana
