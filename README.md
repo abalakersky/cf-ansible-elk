@@ -5,7 +5,7 @@ This repository contains required CloudFormation and Ansible scripts to create a
 ### Step by Step instructions
 
 1. create a bucket to store files
-2. Add bucket policy allowing access to files via HTTP and replace examplebucket with the name of your bucket:
+2. Add bucket policy allowing access to files via HTTP and replace the word `examplebucket` with the name of your bucket:
 ```
 {
   "Version":"2012-10-17",
