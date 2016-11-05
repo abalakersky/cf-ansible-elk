@@ -1,6 +1,6 @@
 # cf-ansible-elk
 
-This repository contains required CloudFormation and Ansible scripts to create a single instance ins a VPC, install Ansible on that instance, then run Ansible Playbooks to create a second instance and install ELK on it.
+This repository contains required CloudFormation and Ansible scripts to create a single instance in a VPC, install Ansible on that instance, then run Ansible Playbooks to create a second instance and install ELK on it.
 
 ### Step by Step instructions
 
