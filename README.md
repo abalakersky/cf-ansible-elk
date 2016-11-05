@@ -31,3 +31,7 @@ This repository contains required CloudFormation and Ansible scripts to create a
    3. Pick the default keypair to use for ansible server
    4. specify CIDR address for incoming SSH connections
    5. Continue to let the stack start.
+
+## Results
+
+After about 15-20 minutes you will find 2 instances in your AWS account. One named AnsibleELK-ansible, and the other elkserver. By accessing elkserver on its public IP with port 5601 you will be get to Kibana. Port 9200 will get you to Elasticsearch.
